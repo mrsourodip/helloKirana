@@ -138,6 +138,7 @@ export default function CheckoutPage() {
           name: 'Hello Kirana',
           description: 'Payment for your order',
           order_id: orderId,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           handler: async function (response: any) {
             try {
               const verifyResponse = await fetch('/api/orders/verify-payment', {
@@ -173,10 +174,11 @@ export default function CheckoutPage() {
           },
         };
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const razorpay = new (window as any).Razorpay(options);
         razorpay.open();
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error processing payment:', error);
       toast.error('Failed to process payment. Please try again.');
     } finally {

@@ -7,7 +7,7 @@ import mongoose from 'mongoose';
 
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -20,7 +20,7 @@ export async function PUT(
 
     await connectDB();
 
-    const addressId = await params.id;
+    const addressId = context.params.id;
 
     // Validate if the ID is a valid MongoDB ObjectId
     if (!mongoose.Types.ObjectId.isValid(addressId)) {
@@ -48,12 +48,12 @@ export async function PUT(
 
     if (!address) {
       return NextResponse.json(
-        { error: 'Address not found' },
+        { error: 'Address not found or you do not have permission to update it' },
         { status: 404 }
       );
     }
 
-    return NextResponse.json(address);
+    return NextResponse.json({ message: 'Default address updated successfully', address });
   } catch (error) {
     console.error('Error setting default address:', error);
     return NextResponse.json(

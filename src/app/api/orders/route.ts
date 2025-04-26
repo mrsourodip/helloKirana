@@ -11,13 +11,6 @@ interface OrderItem {
   isPieceProduct: boolean;
 }
 
-interface ShippingAddress {
-  street: string;
-  city: string;
-  state: string;
-  pincode: string;
-}
-
 export async function GET() {
   try {
     const session = await getServerSession(authOptions);

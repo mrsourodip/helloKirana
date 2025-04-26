@@ -74,6 +74,7 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json({ message: 'Added to favorites' });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     if (error.code === 11000) {
       return NextResponse.json({ error: 'Already in favorites' }, { status: 400 });

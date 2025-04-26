@@ -11,12 +11,12 @@ interface GlobalMongoose {
   promise: Promise<typeof mongoose> | null;
 }
 
-// eslint-disable-next-line no-var
 declare global {
+  // eslint-disable-next-line no-var
   var mongoose: GlobalMongoose | undefined;
 }
 
-let cached = global.mongoose || { conn: null, promise: null };
+const cached = global.mongoose || { conn: null, promise: null };
 
 if (!global.mongoose) {
   global.mongoose = cached;
@@ -50,5 +50,4 @@ export async function connectDB() {
 }
 
 // For backwards compatibility with existing imports
-const db = { connectDB };
 export { connectDB as default }; 

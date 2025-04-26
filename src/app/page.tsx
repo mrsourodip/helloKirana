@@ -94,12 +94,10 @@ export default function Home() {
     }
   }, []);
 
-  const debouncedFetch = useCallback(
+  const debouncedFetch =
     debounce((search: string, category: string) => {
       fetchProducts(search, category);
-    }, 300),
-    [fetchProducts]
-  );
+    }, 300)
 
   useEffect(() => {
     debouncedFetch(searchTerm, selectedCategory);

@@ -32,7 +32,7 @@ export default function Register() {
         const data = await res.json();
         setError(data.message || 'Registration failed');
       }
-    } catch (error) {
+    } catch {
       setError('An error occurred during registration');
     }
   };
