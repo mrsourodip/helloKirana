@@ -11,13 +11,13 @@ import Product from '@/models/Product';
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> } // Replace 'id' with your actual dynamic segment name
 ) {
   try {
     await connectDB();
-
-    // First get the current product to find its category
-    const currentProduct = await Product.findById(params.id);
+    const {id} = await params
+    
+    const currentProduct = await Product.findById(id);
     if (!currentProduct) {
       return NextResponse.json({ error: 'Product not found' }, { status: 404 });
     }

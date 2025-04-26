@@ -46,7 +46,7 @@ export async function POST(req: Request) {
       total,
       shippingAddress,
       paymentMethod: 'razorpay',
-      paymentStatus: 'pending',
+      paymentStatus: process.env.NODE_ENV === 'production' ? 'pending' : 'mock',
       razorpayOrderId: order.id,
     });
 
@@ -54,6 +54,7 @@ export async function POST(req: Request) {
       orderId: order.id,
       amount: order.amount,
       currency: order.currency,
+      isMock: process.env.NODE_ENV !== 'production' && !process.env.RAZORPAY_KEY_ID,
     });
   } catch (error) {
     console.error('Error creating payment:', error);

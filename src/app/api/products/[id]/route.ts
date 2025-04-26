@@ -4,12 +4,13 @@ import Product from '@/models/Product';
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> } // Replace 'id' with your actual dynamic segment name
 ) {
   try {
     await connectDB();
+    const {id} = await params
     
-    const product = await Product.findById(params.id);
+    const product = await Product.findById(id);
     
     if (!product) {
       return NextResponse.json(

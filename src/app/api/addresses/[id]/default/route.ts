@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { connectDB } from '@/lib/db';
@@ -6,11 +6,15 @@ import Address from '@/models/Address';
 import mongoose from 'mongoose';
 
 export async function PUT(
-  request: Request,
-  context: { params: { id: string } }
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> } // Replace 'id' with your actual dynamic segment name
 ) {
   try {
     const session = await getServerSession(authOptions);
+    const { id } = await params;
+
+
+
     if (!session?.user) {
       return NextResponse.json(
         { error: 'You must be signed in to set default address' },
@@ -20,9 +24,8 @@ export async function PUT(
 
     await connectDB();
 
-    const addressId = context.params.id;
+    const addressId = id;
 
-    // Validate if the ID is a valid MongoDB ObjectId
     if (!mongoose.Types.ObjectId.isValid(addressId)) {
       return NextResponse.json(
         { error: 'Invalid address ID' },
@@ -30,18 +33,13 @@ export async function PUT(
       );
     }
 
-    // First, set all addresses of the user to non-default
     await Address.updateMany(
       { user: session.user.id },
       { isDefault: false }
     );
 
-    // Then set the specified address as default
     const address = await Address.findOneAndUpdate(
-      { 
-        _id: new mongoose.Types.ObjectId(addressId),
-        user: session.user.id 
-      },
+      { _id: addressId, user: session.user.id },
       { isDefault: true },
       { new: true }
     );
@@ -61,4 +59,4 @@ export async function PUT(
       { status: 500 }
     );
   }
-} 
+}
