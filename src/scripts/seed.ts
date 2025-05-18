@@ -1,12 +1,14 @@
-import 'dotenv/config';
-import { resolve } from 'path';
-import { config } from 'dotenv';
+import { connectDB } from '../lib/mongodb.ts';
+import Product from '../models/Product.ts';
 
-// Load environment variables from .env.local
-config({ path: resolve(process.cwd(), '.env.local') });
+// Debug environment variables
+console.log('Current working directory:', process.cwd());
+console.log('MONGODB_URI:', process.env.MONGODB_URI ? 'Present' : 'Missing');
 
-import { connectDB } from '../lib/db';
-import Product from '../models/Product';
+if (!process.env.MONGODB_URI) {
+  console.error('MONGODB_URI is not defined. Please check your .env.local file');
+  process.exit(1);
+}
 
 const products = [
   // Rice

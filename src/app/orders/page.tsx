@@ -5,6 +5,9 @@ import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 
+// Add a constant for the placeholder image
+const PLACEHOLDER_IMAGE = 'https://placehold.co/400x300?text=Product+Unavailable';
+
 interface OrderItem {
   product: {
     _id: string;
@@ -135,18 +138,19 @@ export default function Orders() {
             </div>
 
             <div className="border-t pt-4">
-              {order.items.map((item) => (
+              {order.items.map((item, index) => (
                 <div
-                  key={item.product?._id}
+                  key={`${order._id}-item-${index}`}
                   className="flex justify-between items-center py-2"
                 >
                   <div className="flex items-center">
                     <div className="w-16 h-16 relative mr-4">
                       <Image
-                        src={item.product?.image || ''}
-                        alt={item.product?.name || ''}
+                        src={item.product?.image || PLACEHOLDER_IMAGE}
+                        alt={item.product?.name || 'Product unavailable'}
                         fill
                         className="object-cover rounded-md"
+                        sizes="64px"
                       />
                     </div>
                     <div>

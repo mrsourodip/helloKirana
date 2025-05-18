@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import connectDB from '@/lib/mongodb';
+import {connectDB} from '@/lib/mongodb';
 import Address from '@/models/Address';
 
 export async function GET() {

@@ -1,144 +1,80 @@
-# Kirana Store - Full Stack E-commerce Application
+# Hello Kirana - E-commerce Platform
 
-A modern, mobile-first e-commerce application for a Kirana (grocery) store built with Next.js, MongoDB, and Tailwind CSS.
+A modern e-commerce platform built with Next.js, MongoDB, and NextAuth.js.
 
 ## Features
 
-- User authentication (sign up/login)
-- Product browsing and search
-- Product details with per kg/per piece pricing
+- User authentication with email/password and Google
+- Product catalog with categories
 - Shopping cart functionality
-- Order placement and history
-- Mobile-first, responsive design
-- Secure payment integration (Stripe)
+- Secure payment integration
+- Admin dashboard
+- Responsive design
 
 ## Tech Stack
 
-- **Frontend**: Next.js 14, React, Tailwind CSS
-- **Backend**: Next.js API Routes
-- **Database**: MongoDB
-- **Authentication**: NextAuth.js
-- **Payment**: Stripe
-- **Styling**: Tailwind CSS
+- Next.js 15
+- React 19
+- MongoDB
+- NextAuth.js
+- Tailwind CSS
+- TypeScript
+- Zustand for state management
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 18+ and npm
-- MongoDB instance
-- Stripe account (for payment processing)
+- Node.js 18+
+- MongoDB
+- npm or yarn
 
 ### Installation
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/kirana-store.git
-   cd kirana-store
+   git clone https://github.com/yourusername/hellokirana.git
+   cd hellokirana
    ```
 
 2. Install dependencies:
    ```bash
    npm install
+   # or
+   yarn install
    ```
 
-3. Create a `.env.local` file in the root directory with the following variables:
-   ```
-   MONGODB_URI=your_mongodb_connection_string
+3. Create a `.env.local` file in the root directory and add the following variables:
+   ```env
+   MONGODB_URI=your_mongodb_uri
    NEXTAUTH_SECRET=your_nextauth_secret
    NEXTAUTH_URL=http://localhost:3000
+   GOOGLE_CLIENT_ID=your_google_client_id
+   GOOGLE_CLIENT_SECRET=your_google_client_secret
    STRIPE_SECRET_KEY=your_stripe_secret_key
    STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
+   RAZORPAY_KEY_ID=your_razorpay_key_id
+   RAZORPAY_KEY_SECRET=your_razorpay_key_secret
    ```
 
 4. Run the development server:
    ```bash
    npm run dev
+   # or
+   yarn dev
    ```
 
 5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Deployment
 
-### Vercel Deployment
+This project is configured for deployment on Vercel. To deploy:
 
-1. Create a Vercel account at [vercel.com](https://vercel.com) if you don't have one.
-
-2. Install Vercel CLI:
-   ```bash
-   npm install -g vercel
-   ```
-
-3. Login to Vercel:
-   ```bash
-   vercel login
-   ```
-
-4. Deploy to Vercel:
-   ```bash
-   vercel
-   ```
-
-5. Set up environment variables in Vercel dashboard:
-   - Go to your project settings
-   - Add the following environment variables:
-     ```
-     MONGODB_URI=your-production-mongodb-uri
-     NEXTAUTH_SECRET=your-production-secret-key
-     NEXTAUTH_URL=https://your-production-domain.com
-     STRIPE_SECRET_KEY=your-production-stripe-secret-key
-     STRIPE_PUBLISHABLE_KEY=your-production-stripe-publishable-key
-     ```
-
-6. Enable automatic deployments:
-   - Connect your GitHub repository to Vercel
-   - Vercel will automatically deploy when you push to the main branch
-
-### Production Build
-
-1. Create a production build:
-   ```bash
-   npm run build
-   ```
-
-2. Start the production server:
-   ```bash
-   npm start
-   ```
-
-## Project Structure
-
-```
-src/
-├── app/                    # Next.js app directory
-│   ├── api/               # API routes
-│   ├── cart/              # Cart page
-│   ├── login/             # Login page
-│   ├── orders/            # Orders page
-│   ├── product/           # Product pages
-│   └── register/          # Registration page
-├── components/            # React components
-├── lib/                   # Utility functions
-├── models/                # MongoDB models
-└── types/                 # TypeScript type definitions
-```
-
-## API Routes
-
-- `/api/auth/[...nextauth]` - Authentication endpoints
-- `/api/register` - User registration
-- `/api/products` - Product management
-- `/api/orders` - Order management
-- `/api/payment` - Payment processing
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+1. Push your code to GitHub
+2. Connect your GitHub repository to Vercel
+3. Add the environment variables in Vercel's project settings
+4. Deploy!
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.

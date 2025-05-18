@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import Order from '@/models/Order';
-import connectDB from '@/lib/mongodb';
+import {connectDB} from '@/lib/mongodb';
 
 interface OrderItem {
   id: string;

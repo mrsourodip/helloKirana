@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import connectDB from '@/lib/mongodb';
+import {connectDB} from '@/lib/mongodb';
 import Product from '@/models/Product';
 
 export async function GET(request: Request) {
@@ -27,12 +27,17 @@ export async function GET(request: Request) {
       };
     }
 
-    const products = await Product.find(query);
-    return NextResponse.json(products);
-  } catch (error) {
+    const products = await Product.find(query).lean();
+    return NextResponse.json({ success: true, data: products });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
     console.error('Error fetching products:', error);
     return NextResponse.json(
-      { message: 'Error fetching products' },
+      { 
+        success: false, 
+        message: 'Error fetching products',
+        error: process.env.NODE_ENV === 'development' ? error.message : undefined
+      },
       { status: 500 }
     );
   }

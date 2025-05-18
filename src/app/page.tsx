@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -85,31 +85,37 @@ export default function Home() {
       if (search) params.append('search', search);
 
       const response = await fetch(`/api/products?${params.toString()}`);
-      const data = await response.json();
+      const { data } = await response.json();
       setProducts(data);
     } catch (error) {
       console.error('Error fetching products:', error);
+      setProducts([]);
     } finally {
       setIsSearching(false);
+      setLoading(false);
     }
   }, []);
 
-  const debouncedFetch =
-    debounce((search: string, category: string) => {
+  const debouncedFetch = useMemo(
+    () => debounce((search: string, category: string) => {
       fetchProducts(search, category);
-    }, 300)
+    }, 300),
+    [fetchProducts]
+  );
 
   useEffect(() => {
-    debouncedFetch(searchTerm, selectedCategory);
+    fetchProducts(searchTerm, selectedCategory);
+    
     return () => {
       debouncedFetch.cancel();
     };
-  }, [searchTerm, selectedCategory, debouncedFetch]);
+  }, [selectedCategory, debouncedFetch, fetchProducts, searchTerm]);
 
   useEffect(() => {
-    fetchProducts('', '');
-    setLoading(false);
-  }, [fetchProducts]);
+    if (searchTerm) {
+      debouncedFetch(searchTerm, selectedCategory);
+    }
+  }, [searchTerm, selectedCategory, debouncedFetch]);
 
   useEffect(() => {
     const fetchLastOrder = async () => {
