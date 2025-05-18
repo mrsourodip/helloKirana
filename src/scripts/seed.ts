@@ -1,6 +1,3 @@
-import { connectDB } from '../lib/mongodb.ts';
-import Product from '../models/Product.ts';
-
 // Debug environment variables
 console.log('Current working directory:', process.cwd());
 console.log('MONGODB_URI:', process.env.MONGODB_URI ? 'Present' : 'Missing');
@@ -393,22 +390,16 @@ const products = [
   }
 ];
 
-async function seed() {
-  try {
-    await connectDB();
-
-    // Clear existing products
-    await Product.deleteMany({});
-
-    // Add new products
-    const createdProducts = await Product.insertMany(products);
-
-    console.log('Products seeded successfully:', createdProducts.length);
-    process.exit(0);
-  } catch (error) {
-    console.error('Error seeding products:', error);
-    process.exit(1);
+async function seedProducts() {
+  for (const product of products) {
+    const res = await fetch('http://localhost:3000/api/products', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(product)
+    });
+    const data = await res.json();
+    console.log(data);
   }
 }
 
-seed(); 
+seedProducts(); 
